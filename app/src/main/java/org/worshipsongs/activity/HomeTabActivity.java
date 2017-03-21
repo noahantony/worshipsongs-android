@@ -13,6 +13,7 @@ import org.worshipsongs.worship.R;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class HomeTabActivity extends AppCompatActivity
 {
     private List<String> titles;

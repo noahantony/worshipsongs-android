@@ -22,6 +22,7 @@ import org.worshipsongs.worship.R;
  * Version : 3.x
  */
 
+@Deprecated
 public class PresentSongActivity extends AppCompatActivity
 {
     private SongDao songDao;

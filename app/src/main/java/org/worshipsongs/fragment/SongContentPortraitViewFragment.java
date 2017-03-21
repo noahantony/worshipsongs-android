@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -15,9 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +24,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.youtube.player.YouTubePlayer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.worshipsongs.CommonConstants;
 import org.worshipsongs.WorshipSongApplication;
 import org.worshipsongs.activity.CustomYoutubeBoxActivity;
@@ -64,10 +61,10 @@ public class SongContentPortraitViewFragment extends Fragment
     private FloatingActionsMenu floatingActionMenu;
     private Song song;
     private ListView listView;
-    private  PresentSongCardViewAdapter presentSongCardViewAdapter;
+    private PresentSongCardViewAdapter presentSongCardViewAdapter;
     private FloatingActionButton nextButton;
     private FloatingActionButton previousButton;
-    private int currentPosition;
+    //private int currentPosition;
     private FloatingActionButton presentSongFloatingButton;
     private PresentationScreenService presentationScreenService;
     private CustomTagColorService customTagColorService = new CustomTagColorService();
@@ -82,6 +79,11 @@ public class SongContentPortraitViewFragment extends Fragment
         songContentPortraitViewFragment.setArguments(bundle);
         return songContentPortraitViewFragment;
     }
+
+//    public static SongContentPortraitViewFragment newInstance()
+//    {
+//        return new SongContentPortraitViewFragment();
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -106,7 +108,7 @@ public class SongContentPortraitViewFragment extends Fragment
         Bundle bundle = getArguments();
         title = bundle.getString(CommonConstants.TITLE_KEY);
         tilteList = bundle.getStringArrayList(CommonConstants.TITLE_LIST_KEY);
-        if (bundle != null) {
+        if (bundle != null ) {
             millis = bundle.getInt(KEY_VIDEO_TIME);
             Log.i(this.getClass().getSimpleName(), "Video time " + millis);
         }
@@ -235,12 +237,13 @@ public class SongContentPortraitViewFragment extends Fragment
                     floatingActionMenu.collapse();
                 }
                 if (presentationScreenService.getPresentation() != null) {
-                    currentPosition = 0;
-                    getPresentationScreenService().showNextVerse(song, currentPosition);
-                    presentSongCardViewAdapter.setItemSelected(0);
-                    presentSongCardViewAdapter.notifyDataSetChanged();
+//                    currentPosition = 0;
+//                    getPresentationScreenService().showNextVerse(song, currentPosition);
+//                    presentSongCardViewAdapter.setItemSelected(0);
+//                    presentSongCardViewAdapter.notifyDataSetChanged();
+                    presentSelectedVerse(0);
                     floatingActionMenu.setVisibility(View.GONE);
-                    nextButton.setVisibility(View.VISIBLE);
+                    // nextButton.setVisibility(View.VISIBLE);
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 } else {
                     Toast.makeText(getActivity(), "Your device is not connected to any remote display", Toast.LENGTH_SHORT).show();
@@ -259,12 +262,13 @@ public class SongContentPortraitViewFragment extends Fragment
             public void onClick(View v)
             {
                 if (presentationScreenService.getPresentation() != null) {
-                    currentPosition = 0;
-                    getPresentationScreenService().showNextVerse(song, currentPosition);
+//                    currentPosition = 0;
+//                    getPresentationScreenService().showNextVerse(song, currentPosition);
                     presentSongFloatingButton.setVisibility(View.GONE);
-                    presentSongCardViewAdapter.setItemSelected(0);
-                    presentSongCardViewAdapter.notifyDataSetChanged();
-                    nextButton.setVisibility(View.VISIBLE);
+//                    presentSongCardViewAdapter.setItemSelected(0);
+//                    presentSongCardViewAdapter.notifyDataSetChanged();
+//                    nextButton.setVisibility(View.VISIBLE);
+                    presentSelectedVerse(0);
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 } else {
                     Toast.makeText(getActivity(), "Your device is not connected to any remote display", Toast.LENGTH_SHORT).show();
@@ -317,18 +321,22 @@ public class SongContentPortraitViewFragment extends Fragment
         @Override
         public void onClick(View v)
         {
-            currentPosition = currentPosition + 1;
-            if ((song.getContents().size() - 1) == currentPosition) {
-                nextButton.setVisibility(View.GONE);
-            }
-            if (song.getContents().size() > currentPosition) {
-                getPresentationScreenService().showNextVerse(song, currentPosition);
-                listView.smoothScrollToPositionFromTop(currentPosition, 2);
-                previousButton.setVisibility(View.VISIBLE);
-                presentSongCardViewAdapter.setItemSelected(currentPosition);
-                presentSongCardViewAdapter.notifyDataSetChanged();
+//            currentPosition = currentPosition + 1;
+//            if ((song.getContents().size() - 1) == currentPosition) {
+//                nextButton.setVisibility(View.GONE);
+//            }
+//            if (song.getContents().size() > currentPosition) {
+//                getPresentationScreenService().showNextVerse(song, currentPosition);
+//                listView.smoothScrollToPositionFromTop(currentPosition, 2);
+//                previousButton.setVisibility(View.VISIBLE);
+//                presentSongCardViewAdapter.setItemSelected(currentPosition);
+//                presentSongCardViewAdapter.notifyDataSetChanged();
+//
+//            }
 
-            }
+            int position = presentSongCardViewAdapter.getSelectedItem() + 1;
+            listView.smoothScrollToPositionFromTop(position, 2);
+            presentSelectedVerse(position <= song.getContents().size() ? position : (position - 1));
         }
     }
 
@@ -337,20 +345,24 @@ public class SongContentPortraitViewFragment extends Fragment
         @Override
         public void onClick(View v)
         {
-            currentPosition = currentPosition - 1;
-            if (currentPosition == song.getContents().size()) {
-                currentPosition = currentPosition - 1;
-            }
-            if (currentPosition <= song.getContents().size() && currentPosition >= 0) {
-                getPresentationScreenService().showNextVerse(song, currentPosition);
-                listView.smoothScrollToPosition(currentPosition, 2);
-                nextButton.setVisibility(View.VISIBLE);
-                presentSongCardViewAdapter.setItemSelected(currentPosition);
-                presentSongCardViewAdapter.notifyDataSetChanged();
-            }
-            if (currentPosition == 0) {
-                previousButton.setVisibility(View.GONE);
-            }
+//            currentPosition = currentPosition - 1;
+//            if (currentPosition == song.getContents().size()) {
+//                currentPosition = currentPosition - 1;
+//            }
+//            if (currentPosition <= song.getContents().size() && currentPosition >= 0) {
+//                getPresentationScreenService().showNextVerse(song, currentPosition);
+//                listView.smoothScrollToPosition(currentPosition, 2);
+//                nextButton.setVisibility(View.VISIBLE);
+//                presentSongCardViewAdapter.setItemSelected(currentPosition);
+//                presentSongCardViewAdapter.notifyDataSetChanged();
+//            }
+//            if (currentPosition == 0) {
+//                previousButton.setVisibility(View.GONE);
+//            }
+            int position = presentSongCardViewAdapter.getSelectedItem() - 1;
+            int previousPosition = position >= 0 ? position : 0;
+            listView.smoothScrollToPosition(previousPosition, 2);
+            presentSelectedVerse(previousPosition);
         }
     }
 
@@ -359,14 +371,18 @@ public class SongContentPortraitViewFragment extends Fragment
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            if (isPlayVideo(song.getUrlKey())) {
-                if (floatingActionMenu != null && floatingActionMenu.getVisibility() == View.GONE && isPresentSong()) {
-                    setOnItemClickListener(position);
-                }
-            } else {
-                if (presentSongFloatingButton != null && presentSongFloatingButton.getVisibility() == View.GONE) {
-                    setOnItemClickListener(position);
-                }
+//            if (isPlayVideo(song.getUrlKey())) {
+//                if (floatingActionMenu != null && floatingActionMenu.getVisibility() == View.GONE && isPresentSong()) {
+//                    presentSelectedVerse(position);
+//                }
+//            } else {
+//                if (presentSongFloatingButton != null && presentSongFloatingButton.getVisibility() == View.GONE) {
+//                    presentSelectedVerse(position);
+//                }
+//            }
+            if (previousButton.getVisibility() == View.VISIBLE || nextButton.getVisibility() == View.VISIBLE) {
+                listView.smoothScrollToPositionFromTop(position, 2);
+                presentSelectedVerse(position);
             }
             if (floatingActionMenu != null && floatingActionMenu.isExpanded()) {
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -376,26 +392,56 @@ public class SongContentPortraitViewFragment extends Fragment
             }
         }
 
-        private void setOnItemClickListener(int position)
-        {
-            currentPosition = position;
-            getPresentationScreenService().showNextVerse(song, position);
-            presentSongCardViewAdapter.setItemSelected(currentPosition);
-            presentSongCardViewAdapter.notifyDataSetChanged();
-            if (presentSongFloatingButton != null) {
-                presentSongFloatingButton.setVisibility(View.GONE);
-            }
+//        private void presentSelectedVerse(int position)
+//        {
+//           // currentPosition = position;
+//            getPresentationScreenService().showNextVerse(song, position);
+//            listView.smoothScrollToPositionFromTop(position, 2);
+//            presentSongCardViewAdapter.setItemSelected(position);
+//            presentSongCardViewAdapter.notifyDataSetChanged();
+//
+//            previousButton.setVisibility(position <= 0 ? View.GONE : View.VISIBLE);
+//            nextButton.setVisibility(position >= song.getContents().size() - 1 ? View.GONE : View.VISIBLE);
+////            if (presentSongFloatingButton != null) {
+////                presentSongFloatingButton.setVisibility(View.GONE);
+////            }
+////
+////            if (position == 0) {
+////                previousButton.setVisibility(View.GONE);
+////                nextButton.setVisibility(View.VISIBLE);
+////            } else if (song.getContents().size() == (position + 1)) {
+////                nextButton.setVisibility(View.GONE);
+////                previousButton.setVisibility(View.VISIBLE);
+////            } else {
+////                nextButton.setVisibility(View.VISIBLE);
+////                previousButton.setVisibility(View.VISIBLE);
+////            }
+//        }
+    }
 
-            if (position == 0) {
-                previousButton.setVisibility(View.GONE);
-                nextButton.setVisibility(View.VISIBLE);
-            } else if (song.getContents().size() == (position + 1)) {
-                nextButton.setVisibility(View.GONE);
-                previousButton.setVisibility(View.VISIBLE);
-            } else {
-                nextButton.setVisibility(View.VISIBLE);
-                previousButton.setVisibility(View.VISIBLE);
-            }
+    private void presentSelectedVerse(int position)
+    {
+        if (presentationScreenService.getPresentation() != null) {
+            // currentPosition = position;
+            getPresentationScreenService().showNextVerse(song, position);
+            presentSongCardViewAdapter.setItemSelected(position);
+            presentSongCardViewAdapter.notifyDataSetChanged();
+            previousButton.setVisibility(position <= 0 ? View.GONE : View.VISIBLE);
+            nextButton.setVisibility(position >= song.getContents().size() - 1 ? View.GONE : View.VISIBLE);
+//            if (presentSongFloatingButton != null) {
+//                presentSongFloatingButton.setVisibility(View.GONE);
+//            }
+//
+//            if (position == 0) {
+//                previousButton.setVisibility(View.GONE);
+//                nextButton.setVisibility(View.VISIBLE);
+//            } else if (song.getContents().size() == (position + 1)) {
+//                nextButton.setVisibility(View.GONE);
+//                previousButton.setVisibility(View.VISIBLE);
+//            } else {
+//                nextButton.setVisibility(View.VISIBLE);
+//                previousButton.setVisibility(View.VISIBLE);
+//            }
         }
     }
 

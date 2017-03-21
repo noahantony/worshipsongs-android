@@ -38,6 +38,11 @@ public class PresentSongCardViewAdapter extends ArrayAdapter<String>
         selectedItem = position;
     }
 
+    public int getSelectedItem()
+    {
+        return selectedItem;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {

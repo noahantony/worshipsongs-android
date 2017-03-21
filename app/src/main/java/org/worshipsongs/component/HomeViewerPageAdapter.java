@@ -45,8 +45,6 @@ public class HomeViewerPageAdapter extends FragmentPagerAdapter
         return null;
     }
 
-
-
     // This method return the titles for the Tabs in the Tab Strip
 
     @Override

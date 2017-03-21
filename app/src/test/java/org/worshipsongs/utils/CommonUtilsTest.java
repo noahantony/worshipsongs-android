@@ -91,8 +91,7 @@ public class CommonUtilsTest
         sharedPreferences.edit().putBoolean(CommonConstants.SHOW_REVERT_DATABASE_BUTTON_KEY, true).apply();
         assertFalse(CommonUtils.isNotImportedDatabase());
     }
-
-
+    
     @Test
     public void testIsNewVersion()
     {
