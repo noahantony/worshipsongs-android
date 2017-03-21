@@ -177,7 +177,7 @@ public class SongDao extends AbstractDao
 
     String parseMediaUrlKey(String comments)
     {
-        // Log.i(this.getClass().getSimpleName(), "Preparing to parse media url: " + comments);
+         Log.i(this.getClass().getSimpleName(), "Preparing to parse media url: " + comments);
         String mediaUrl = "";
         if (comments != null && comments.length() > 0) {
             String mediaUrlLine = RegexUtils.getMatchString(comments, "mediaurl" + ".*");

@@ -131,8 +131,8 @@ public class SongListAdapterService
         final String urlKey = song.getUrlKey();
         MenuItem menuItem = popupMenu.getMenu().findItem(R.id.play_song);
         menuItem.setVisible(urlKey != null && urlKey.length() > 0 && preferenceSettingService.isPlayVideo() && hidePlay);
-        MenuItem presentSongMenuItem = popupMenu.getMenu().findItem(R.id.present_song);
-        presentSongMenuItem.setVisible(false);
+//        MenuItem presentSongMenuItem = popupMenu.getMenu().findItem(R.id.present_song);
+//        presentSongMenuItem.setVisible(false);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
         {
             public boolean onMenuItemClick(final MenuItem item)
@@ -148,9 +148,9 @@ public class SongListAdapterService
                     case R.id.play_song:
                         showYouTube(urlKey, songName);
                         return true;
-                    case R.id.present_song:
-                        startPresentActivity(songName);
-                        return true;
+//                    case R.id.present_song:
+//                        startPresentActivity(songName);
+//                        return true;
                     default:
                         return false;
                 }

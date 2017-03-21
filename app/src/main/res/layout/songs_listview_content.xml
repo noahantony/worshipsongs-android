@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/song_list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:clickable="false"
                 android:padding="5dp">
-
 
     <TextView
         android:id="@+id/songsTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginRight="50dp"
         android:clickable="true"
@@ -17,7 +17,8 @@
         android:maxLines="1"
         android:padding="7dp"
         android:text="Title"
-        android:textColor="@android:color/black"
+        android:textColor="?android:attr/textColor"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textSize="18sp"
         />
 

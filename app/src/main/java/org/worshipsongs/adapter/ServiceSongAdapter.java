@@ -227,8 +227,8 @@ public class ServiceSongAdapter extends ArrayAdapter<String>
         final String urlKey = song.getUrlKey();
         MenuItem menuItem = popupMenu.getMenu().findItem(R.id.play_song);
         menuItem.setVisible(urlKey != null && urlKey.length() > 0 && preferenceSettingService.isPlayVideo() && hidePlay);
-        MenuItem favouriteMenuItem = popupMenu.getMenu().findItem(R.id.addToList);
-        favouriteMenuItem.setVisible(false);
+//        MenuItem favouriteMenuItem = popupMenu.getMenu().findItem(R.id.addToList);
+//        favouriteMenuItem.setVisible(false);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
         {
             public boolean onMenuItemClick(final MenuItem item)
@@ -244,9 +244,9 @@ public class ServiceSongAdapter extends ArrayAdapter<String>
                     case R.id.play_song:
                         showYouTube(urlKey, songName);
                         return true;
-                    case R.id.present_song:
-                        startPresentActivity(songName);
-                        return true;
+//                    case R.id.present_song:
+//                        startPresentActivity(songName);
+//                        return true;
                     default:
                         return false;
                 }

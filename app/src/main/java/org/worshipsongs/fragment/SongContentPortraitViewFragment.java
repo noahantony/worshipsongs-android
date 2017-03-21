@@ -64,7 +64,6 @@ public class SongContentPortraitViewFragment extends Fragment
     private PresentSongCardViewAdapter presentSongCardViewAdapter;
     private FloatingActionButton nextButton;
     private FloatingActionButton previousButton;
-    //private int currentPosition;
     private FloatingActionButton presentSongFloatingButton;
     private PresentationScreenService presentationScreenService;
     private CustomTagColorService customTagColorService = new CustomTagColorService();
@@ -80,20 +79,17 @@ public class SongContentPortraitViewFragment extends Fragment
         return songContentPortraitViewFragment;
     }
 
-//    public static SongContentPortraitViewFragment newInstance()
-//    {
-//        return new SongContentPortraitViewFragment();
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
         final View view = inflater.inflate(R.layout.song_content_portrait_view, container, false);
         initSetUp();
-        setBackImageView(view);
-        setTitleTextView(view);
-        setOptionsImageView(view);
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            setBackImageView(view);
+            setTitleTextView(view);
+            setOptionsImageView(view);
+        }
         setListView(view, song);
         setFloatingActionMenu(view, song);
         setNextButton(view);
@@ -104,11 +100,11 @@ public class SongContentPortraitViewFragment extends Fragment
 
     private void initSetUp()
     {
-        showStatusBar();
+        // showStatusBar();
         Bundle bundle = getArguments();
         title = bundle.getString(CommonConstants.TITLE_KEY);
         tilteList = bundle.getStringArrayList(CommonConstants.TITLE_LIST_KEY);
-        if (bundle != null ) {
+        if (bundle != null) {
             millis = bundle.getInt(KEY_VIDEO_TIME);
             Log.i(this.getClass().getSimpleName(), "Video time " + millis);
         }
@@ -128,11 +124,6 @@ public class SongContentPortraitViewFragment extends Fragment
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
-
-//    private void setActionBarLayout(View view)
-//    {
-//        actionBarlinearLayout = (LinearLayout) view.findViewById(R.id.action_bar_linear_Layout);
-//    }
 
     private void setBackImageView(View view)
     {
@@ -321,19 +312,6 @@ public class SongContentPortraitViewFragment extends Fragment
         @Override
         public void onClick(View v)
         {
-//            currentPosition = currentPosition + 1;
-//            if ((song.getContents().size() - 1) == currentPosition) {
-//                nextButton.setVisibility(View.GONE);
-//            }
-//            if (song.getContents().size() > currentPosition) {
-//                getPresentationScreenService().showNextVerse(song, currentPosition);
-//                listView.smoothScrollToPositionFromTop(currentPosition, 2);
-//                previousButton.setVisibility(View.VISIBLE);
-//                presentSongCardViewAdapter.setItemSelected(currentPosition);
-//                presentSongCardViewAdapter.notifyDataSetChanged();
-//
-//            }
-
             int position = presentSongCardViewAdapter.getSelectedItem() + 1;
             listView.smoothScrollToPositionFromTop(position, 2);
             presentSelectedVerse(position <= song.getContents().size() ? position : (position - 1));
@@ -345,20 +323,6 @@ public class SongContentPortraitViewFragment extends Fragment
         @Override
         public void onClick(View v)
         {
-//            currentPosition = currentPosition - 1;
-//            if (currentPosition == song.getContents().size()) {
-//                currentPosition = currentPosition - 1;
-//            }
-//            if (currentPosition <= song.getContents().size() && currentPosition >= 0) {
-//                getPresentationScreenService().showNextVerse(song, currentPosition);
-//                listView.smoothScrollToPosition(currentPosition, 2);
-//                nextButton.setVisibility(View.VISIBLE);
-//                presentSongCardViewAdapter.setItemSelected(currentPosition);
-//                presentSongCardViewAdapter.notifyDataSetChanged();
-//            }
-//            if (currentPosition == 0) {
-//                previousButton.setVisibility(View.GONE);
-//            }
             int position = presentSongCardViewAdapter.getSelectedItem() - 1;
             int previousPosition = position >= 0 ? position : 0;
             listView.smoothScrollToPosition(previousPosition, 2);
@@ -371,15 +335,6 @@ public class SongContentPortraitViewFragment extends Fragment
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-//            if (isPlayVideo(song.getUrlKey())) {
-//                if (floatingActionMenu != null && floatingActionMenu.getVisibility() == View.GONE && isPresentSong()) {
-//                    presentSelectedVerse(position);
-//                }
-//            } else {
-//                if (presentSongFloatingButton != null && presentSongFloatingButton.getVisibility() == View.GONE) {
-//                    presentSelectedVerse(position);
-//                }
-//            }
             if (previousButton.getVisibility() == View.VISIBLE || nextButton.getVisibility() == View.VISIBLE) {
                 listView.smoothScrollToPositionFromTop(position, 2);
                 presentSelectedVerse(position);
@@ -391,32 +346,6 @@ public class SongContentPortraitViewFragment extends Fragment
                 setListViewForegroundColor(color);
             }
         }
-
-//        private void presentSelectedVerse(int position)
-//        {
-//           // currentPosition = position;
-//            getPresentationScreenService().showNextVerse(song, position);
-//            listView.smoothScrollToPositionFromTop(position, 2);
-//            presentSongCardViewAdapter.setItemSelected(position);
-//            presentSongCardViewAdapter.notifyDataSetChanged();
-//
-//            previousButton.setVisibility(position <= 0 ? View.GONE : View.VISIBLE);
-//            nextButton.setVisibility(position >= song.getContents().size() - 1 ? View.GONE : View.VISIBLE);
-////            if (presentSongFloatingButton != null) {
-////                presentSongFloatingButton.setVisibility(View.GONE);
-////            }
-////
-////            if (position == 0) {
-////                previousButton.setVisibility(View.GONE);
-////                nextButton.setVisibility(View.VISIBLE);
-////            } else if (song.getContents().size() == (position + 1)) {
-////                nextButton.setVisibility(View.GONE);
-////                previousButton.setVisibility(View.VISIBLE);
-////            } else {
-////                nextButton.setVisibility(View.VISIBLE);
-////                previousButton.setVisibility(View.VISIBLE);
-////            }
-//        }
     }
 
     private void presentSelectedVerse(int position)
@@ -428,20 +357,6 @@ public class SongContentPortraitViewFragment extends Fragment
             presentSongCardViewAdapter.notifyDataSetChanged();
             previousButton.setVisibility(position <= 0 ? View.GONE : View.VISIBLE);
             nextButton.setVisibility(position >= song.getContents().size() - 1 ? View.GONE : View.VISIBLE);
-//            if (presentSongFloatingButton != null) {
-//                presentSongFloatingButton.setVisibility(View.GONE);
-//            }
-//
-//            if (position == 0) {
-//                previousButton.setVisibility(View.GONE);
-//                nextButton.setVisibility(View.VISIBLE);
-//            } else if (song.getContents().size() == (position + 1)) {
-//                nextButton.setVisibility(View.GONE);
-//                previousButton.setVisibility(View.VISIBLE);
-//            } else {
-//                nextButton.setVisibility(View.VISIBLE);
-//                previousButton.setVisibility(View.VISIBLE);
-//            }
         }
     }
 
@@ -496,62 +411,6 @@ public class SongContentPortraitViewFragment extends Fragment
     {
         return presentationScreenService != null && presentationScreenService.getPresentation() != null;
     }
-
-//    private void setColorSettingsLayout(View view)
-//    {
-//        colorSettingsLayout = (LinearLayout) view.findViewById(R.id.color_settings);
-//        colorSettingsLayout.setVisibility(View.GONE);
-//    }
-
-//    private void setPresentationBackgroundColor(View view)
-//    {
-//        final ImageView presentationBackgroundColor = (ImageView) view.findViewById(R.id.background_color);
-//        presentationBackgroundColor.setColorFilter(preferenceSettingService.getPresentationBackgroundColor());
-//        presentationBackgroundColor.setOnClickListener(new ColorSettingsOnClickListener(presentationBackgroundColor, "presentationBackgroundColor"));
-//    }
-//
-//    private void setPresentationPrimaryColor(View view)
-//    {
-//        final ImageView presentationPrimaryColor = (ImageView) view.findViewById(R.id.primary_text_color);
-//        presentationPrimaryColor.setColorFilter(preferenceSettingService.getPresentationPrimaryColor());
-//        presentationPrimaryColor.setOnClickListener(new ColorSettingsOnClickListener(presentationPrimaryColor, "presentationPrimaryColor"));
-//    }
-//
-//    private void setPresentationSecondaryColor(View view)
-//    {
-//        final ImageView presentationSecondaryColor = (ImageView) view.findViewById(R.id.secondary_text_color);
-//        presentationSecondaryColor.setColorFilter(preferenceSettingService.getPresentationSecondaryColor());
-//        presentationSecondaryColor.setOnClickListener(new ColorSettingsOnClickListener(presentationSecondaryColor, "presentationSecondaryColor"));
-//    }
-//
-//    private class ColorSettingsOnClickListener implements View.OnClickListener
-//    {
-//
-//        private final ImageView imageView;
-//        private final String key;
-//
-//        private ColorSettingsOnClickListener(ImageView imageView, String key)
-//        {
-//            this.imageView = imageView;
-//            this.key = key;
-//        }
-//
-//        @Override
-//        public void onClick(View view)
-//        {
-//            ColorPickerDialog dialog = new ColorPickerDialog(getContext(), preferenceSettingService.getPresentationSecondaryColor());
-//            dialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener()
-//            {
-//                @Override
-//                public void onColorChanged(int color)
-//                {
-//                    sharedPreferences.edit().putInt(key, color).apply();
-//                    imageView.setColorFilter(color);
-//                }
-//            });
-//            dialog.show();
-//        }
-//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState)
