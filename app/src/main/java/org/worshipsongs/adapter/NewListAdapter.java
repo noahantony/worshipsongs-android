@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ import org.worshipsongs.dao.SongDao;
 import org.worshipsongs.dialog.ListDialogFragment;
 import org.worshipsongs.domain.Setting;
 import org.worshipsongs.domain.Song;
-import org.worshipsongs.fragment.SongContentPortraitViewFragment;
 import org.worshipsongs.listener.SongSelectionListener;
 import org.worshipsongs.service.CustomTagColorService;
 import org.worshipsongs.service.UserPreferenceSettingService;
@@ -114,7 +112,7 @@ public class NewListAdapter extends ArrayAdapter<Song>
     {
         Setting.getInstance().setPosition(position);
         if (getContext().getResources().getBoolean(R.bool.isTablet)) {
-            songSelectionListener.onClick(title);
+            songSelectionListener.onSelectSong(title);
         } else {
             Intent intent = new Intent(WorshipSongApplication.getContext(), SongContentViewActivity.class);
             Bundle bundle = new Bundle();

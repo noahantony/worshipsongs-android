@@ -7,5 +7,5 @@ package org.worshipsongs.listener;
 
 public interface SongSelectionListener
 {
-    void onClick(String title);
+    void onSelectSong(String title);
 }

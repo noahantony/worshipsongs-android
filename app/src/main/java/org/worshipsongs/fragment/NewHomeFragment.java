@@ -80,7 +80,7 @@ public class NewHomeFragment extends Fragment implements SongSelectionListener
     }
 
     @Override
-    public void onClick(String title)
+    public void onSelectSong(String title)
     {
         SongContentPortraitViewFragment youTubePlayerFragment = SongContentPortraitViewFragment.newInstance(title, new ArrayList<String>());
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
