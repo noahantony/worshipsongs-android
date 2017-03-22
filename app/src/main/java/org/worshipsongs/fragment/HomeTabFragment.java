@@ -22,6 +22,7 @@ import java.util.List;
  * author:Seenivasan, Madasamy
  * version:2.1.0
  */
+@Deprecated
 public class HomeTabFragment extends Fragment
 {
 

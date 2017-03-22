@@ -31,10 +31,10 @@
         android:layout_toLeftOf="@+id/optionMenuIcon"
         android:layout_toStartOf="@+id/optionMenuIcon"
         android:clickable="false"
-        android:visibility="gone"
+        android:visibility="visible"
         android:contentDescription="optionMenuIcon"
-        android:src="@android:drawable/presence_video_online"
-        android:tint="@color/gray"/>
+        android:src="@drawable/ic_video_white_18dp"
+        android:tint="@color/teal"/>
 
     <ImageView
         android:id="@+id/optionMenuIcon"

@@ -2,11 +2,17 @@
       xmlns:appcompat="http://schemas.android.com/apk/res-auto"
       xmlns:app="http://schemas.android.com/tools">
 
-
     <item
         android:id="@+id/menu_search"
         android:title="Search"
         appcompat:actionViewClass="android.support.v7.widget.SearchView"
         appcompat:showAsAction="always"/>
+
+    <item android:id="@+id/filter"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:icon="@drawable/ic_filter"
+          android:title="filter"
+          appcompat:showAsAction="always"/>
 
 </menu>

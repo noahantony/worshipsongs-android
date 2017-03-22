@@ -36,6 +36,7 @@ import java.util.Set;
  * @Author : Seenivasan,Madasamy
  * @Version : 1.0
  */
+@Deprecated
 public class SongsListFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener
 {
     public PopupWindow popupWindow;

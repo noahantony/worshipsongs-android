@@ -1,5 +1,6 @@
 package org.worshipsongs.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import org.worshipsongs.fragment.SongContentPortraitViewFragment;
 import org.worshipsongs.listener.SongSelectionListener;
 import org.worshipsongs.service.CustomTagColorService;
 import org.worshipsongs.service.UserPreferenceSettingService;
+import org.worshipsongs.utils.CommonUtils;
 import org.worshipsongs.worship.R;
 
 import java.util.ArrayList;
@@ -48,16 +50,18 @@ public class NewListAdapter extends ArrayAdapter<Song>
     private List<Song> songs;
     private final FragmentManager fragmentManager;
     private SongSelectionListener songSelectionListener;
+    private Activity activity;
 
     private UserPreferenceSettingService preferenceSettingService = new UserPreferenceSettingService();
     private CustomTagColorService customTagColorService = new CustomTagColorService();
     private SongDao songDao = new SongDao(getContext());
 
-    public NewListAdapter(@NonNull Context context, List<Song> songs, FragmentManager fragmentManager)
+    public NewListAdapter(@NonNull Activity activity, List<Song> songs, FragmentManager fragmentManager)
     {
-        super(context, R.layout.songs_listview_content, songs);
+        super(activity, R.layout.songs_listview_content, songs);
         this.songs = songs;
         this.fragmentManager = fragmentManager;
+        this.activity = activity;
     }
 
     @NonNull
@@ -91,6 +95,7 @@ public class NewListAdapter extends ArrayAdapter<Song>
         {
             public void onClick(View arg0)
             {
+                CommonUtils.hideKeyboard(activity);
                 setSelectedItem(position);
                 notifyDataSetChanged();
                 displaySelectedSong(title, position);
