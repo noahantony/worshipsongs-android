@@ -70,6 +70,7 @@ public class ServiceListFragment extends Fragment
         serviceListView = (ListView) linearLayout.findViewById(R.id.list_view);
         serviceMsg = (TextView) linearLayout.findViewById(R.id.serviceMsg);
         serviceNames.clear();
+        setHasOptionsMenu(true);
         loadService();
         final Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         serviceListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
@@ -178,31 +179,10 @@ public class ServiceListFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.action_bar_menu, menu);
-        // Associate searchable configuration with the SearchView
+        inflater.inflate(R.menu.add_service_fav, menu);
+
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        ImageView image = (ImageView) searchView.findViewById(R.id.search_close_btn);
-        Drawable drawable = image.getDrawable();
-        drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener()
-        {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                adapter.getFilter().filter(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query)
-            {
-                adapter.getFilter().filter(query);
-                return true;
-
-            }
-        });
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.search_service).getActionView();
         super.onCreateOptionsMenu(menu, inflater);
     }
 
