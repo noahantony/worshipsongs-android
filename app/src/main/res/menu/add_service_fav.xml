@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:appcompat="http://schemas.android.com/apk/res-auto">
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/search_service"
-        android:title="Search"
-        android:icon="@drawable/service_import"
-        appcompat:showAsAction="always"/>
-    <TextView
-        android:id="@+id/serviceImport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="17dp"
-        android:textColor="@color/darkGray"/>
+        android:id="@+id/addToList"
+        android:showAsAction="never"
+        android:title="@string/import_service"
+        tools:ignore="AppCompatResource"/>
 
 </menu>

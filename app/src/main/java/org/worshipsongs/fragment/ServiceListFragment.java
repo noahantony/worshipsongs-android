@@ -181,8 +181,7 @@ public class ServiceListFragment extends Fragment
     {
         inflater.inflate(R.menu.add_service_fav, menu);
 
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.search_service).getActionView();
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

@@ -95,5 +95,6 @@
     <string name="reset_default_title">Reset to default</string>
     <string name="reset_default_summary">Reset other settings to default</string>
     <string name="category">Category</string>
+    <string name="import_service">Import service</string>
 
 </resources>
