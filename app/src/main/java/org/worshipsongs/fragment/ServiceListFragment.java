@@ -241,7 +241,7 @@ public class ServiceListFragment extends Fragment
             }
         });
         AlertDialog dialog = builder.create();
-        dialog.getListView().setSelector(android.R.color.darker_gray);
+        dialog.getListView().setSelector(android.R.color.background_light);
         dialog.show();
     }
 
